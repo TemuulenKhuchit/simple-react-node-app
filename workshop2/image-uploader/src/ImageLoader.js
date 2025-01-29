@@ -1,11 +1,11 @@
-import React, { useState } from 'react';
-import axios from 'axios';
+import React, { useState } from "react";
+import axios from "axios";
 import "./ImageLoader.css";
 
 const ImageUploader = () => {
   const [file, setFile] = useState(null);
-  const [email, setEmail] = useState('');
-  const [message, setMessage] = useState('');
+  const [email, setEmail] = useState("");
+  const [message, setMessage] = useState("");
 
   const handleFileChange = (e) => {
     setFile(e.target.files[0]);
@@ -13,7 +13,7 @@ const ImageUploader = () => {
 
   const handleUpload = async () => {
     if (!file || !email) {
-      setMessage('Please select a file and enter your email.');
+      setMessage("Please select a file and enter your email.");
       return;
     }
 
@@ -22,24 +22,23 @@ const ImageUploader = () => {
       const contentType = file.type;
 
       // Send POST request to API Gateway
-      const response = await axios.post(
-        'your-api',
-        { filename, contentType, email }
-      );
+      const response = await axios.post("https://yb0qyn4zg6.execute-api.us-east-1.amazonaws.com", {
+        filename,
+        contentType,
+        email,
+      });
 
       const { uploadURL } = response.data;
       console.log(uploadURL, response.data);
       // Upload the file to S3 using the pre-signed URL
       await axios.put(uploadURL, file, {
-        headers: { 'Content-Type': file.type },
+        headers: { "Content-Type": file.type },
       });
 
-      setMessage('Upload successful!');
-
-
+      setMessage("Upload successful!");
     } catch (error) {
-      console.error('Error uploading file:', error);
-      setMessage('Upload failed. Please try again.');
+      console.error("Error uploading file:", error);
+      setMessage("Upload failed. Please try again.");
     }
   };
 
@@ -53,8 +52,10 @@ const ImageUploader = () => {
         onChange={(e) => setEmail(e.target.value)}
         class="input-field"
       />
-      <input type="file" onChange={handleFileChange} class="file-input"/>
-      <button onClick={handleUpload} class="upload-button">Upload</button>
+      <input type="file" onChange={handleFileChange} class="file-input" />
+      <button onClick={handleUpload} class="upload-button">
+        Upload
+      </button>
       <p class="message">{message}</p>
     </div>
   );
