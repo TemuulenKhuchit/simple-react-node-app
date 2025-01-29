@@ -22,7 +22,7 @@ const ImageUploader = () => {
       const contentType = file.type;
 
       // Send POST request to API Gateway
-      const response = await axios.post("https://yb0qyn4zg6.execute-api.us-east-1.amazonaws.com", {
+      const response = await axios.post("https://79kdbab6yc.execute-api.us-east-1.amazonaws.com/prod/upload", {
         filename,
         contentType,
         email,
